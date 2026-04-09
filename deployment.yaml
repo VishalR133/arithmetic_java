@@ -1,30 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: java-app
+  name: arithmetic-app
 spec:
- replicas: 2
- selector:
- matchLabels:
- app: java-app
- template:
- metadata:
- labels:
- app: java-app
- spec:
- containers:
- - name: java-app
- image: vishal133/java-app:latest
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arithmetic-app
+  template:
+    metadata:
+      labels:
+        app: arithmetic-app
+    spec: 
+      containers:
+      - name: java-app
+        image: vishal133/java-app:latest
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
- name: java-service
+  name: arithmetic-service
 spec:
- type: NodePort
- selector:
- app: java-app
- ports:
- - port: 80
- targetPort: 8099
- nodePort: 30008
+  type: NodePort
+  selector:
+    app: arithmetic-app
+  ports:
+    - port: 80
+      targetPort: 8080 
+      nodePort: 30001  
